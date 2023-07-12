@@ -1,0 +1,129 @@
+.product-filters {
+    display: flex;
+    flex-direction: flex-start;
+}
+
+.searchBox {
+    display: inline-block;
+    /* transform: translate(50%, 0); */
+    background: #2f3640;
+    height: 58px;
+    border-radius: 40px;
+    padding: 10px;
+}
+
+.searchBox:hover>.searchInput {
+    width: 240px;
+    padding: 0 6px;
+}
+
+.searchBox:hover>.searchButton {
+    background: #088178;
+    color: #2f3640;
+}
+
+.searchButton {
+    color: white;
+    float: right;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #2f3640;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+}
+
+.searchInput {
+    border: none;
+    background: none;
+    outline: none;
+    float: left;
+    padding: 0;
+    color: white;
+    font-size: 16px;
+    transition: 0.4s;
+    line-height: 40px;
+    width: 0px;
+
+}
+
+@media screen and (max-width: 620px) {
+    .searchBox:hover>.searchInput {
+        width: 150px;
+        padding: 0 6px;
+    }
+}
+
+/* Filter Shop  */
+.shop__body {
+    display: flex;
+    width: 100%;
+}
+
+.shop__filter {
+    background-color: #e3e6f3;
+    max-height: 500px;
+    flex: 2.5;
+    margin-top: 40px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.shop__filter-header {
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 20px;
+}
+
+.shop__filter-group {
+    padding: 10px 30px;
+}
+
+.shop__filter-group-header {
+    margin-bottom: 10px;
+}
+
+.shop__filter-group-body {
+    padding: 5px;
+}
+
+.shop__filter-control {
+    display: flex;
+    align-items: flex-start;
+}
+
+.shop__filter-control span {
+    font-size: 13px;
+    line-height: 15px;
+}
+
+.shop__filter-input-checkbox {
+    margin-right: 5px;
+}
+
+.shop__filter-price {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.shop__filter-price-input {
+    width: 100px;
+    padding: 10px;
+    outline: none;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}
+
+.shop__filter-price-btn {
+    display: block;
+    margin-top: 5px;
+    text-align: center;
+}
+
+#product1 {
+    display: block;
+    flex: 7.5;
+}

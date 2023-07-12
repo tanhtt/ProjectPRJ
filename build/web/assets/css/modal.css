@@ -1,0 +1,128 @@
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: none;
+    z-index: 1000;
+}
+
+.open {
+    display: flex;
+}
+
+.close {
+    display: none;
+}
+
+.modal-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.modal-container {
+    background-color: #fff;
+    position: relative;
+    margin: auto;
+    border-radius: 5px;
+    animation: scaleOpacity ease .2s;
+    overflow: hidden;
+}
+
+
+/*Animation*/
+@keyframes scaleOpacity {
+    from {
+        opacity: 0;
+        scale: 0;
+    }
+
+    to {
+        opacity: 1;
+        scale: 1;
+    }
+}
+
+@keyframes growthModal {
+    from {
+        transform: scale(var(--growth-from));
+    }
+
+    to {
+        transform: scale(var(--growth-to));
+    }
+}
+
+.modal__best-seller {
+    position: relative;
+}
+
+.modal__best-seller-header {
+    padding: 20px;
+    background-color: #e3e6f3;
+}
+
+.modal__best-seller-header h3 {
+    font-weight: 600;
+}
+
+.img-product-advertise img {
+    width: 200px;
+    border-radius: 20px;
+    border: 2px solid #088178;
+}
+
+.modal__best-seller-body {
+    padding: 20px;
+    display: flex;
+
+}
+
+.product-advertise {
+    width: 300px;
+    margin-left: 20px;
+}
+
+.product-advertise h3 {
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+
+.product-advertise h4 {
+    color: #088178;
+    margin-bottom: 5px;
+}
+
+.product-advertise h5 {
+    font-weight: 400;
+}
+
+.product-advertise h5 span {
+    color: #088178;
+}
+
+.product-advertise button {
+    background-color: #088178;
+    float: right;
+}
+
+.product-advertise button a {
+    text-decoration: none;
+    color: #fff;
+
+}
+
+.modal__best-seller-close {
+    position: absolute;
+    right: 0;
+    padding: 21px;
+    border-top-right-radius: 5px;
+    cursor: pointer;
+}
+
+.modal__best-seller-close:hover {
+    background-color: #088178;
+}

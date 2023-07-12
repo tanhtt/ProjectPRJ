@@ -1,0 +1,124 @@
+.admin__container {
+    position: relative;
+}
+
+.admin__slidebar {
+    position: absolute;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background: rgb(176, 189, 246);
+    transition: all .5s ease;
+}
+
+.admin__slidebar header {
+    font-size: 22px;
+    color: #000;
+    text-align: center;
+    line-height: 70px;
+    background: rgb(159, 175, 246);
+    user-select: none;
+}
+
+.admin__menu-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.admin__menu-item-link {
+    text-decoration: none;
+    display: block;
+    height: 100%;
+    width: 100%;
+    line-height: 65px;
+    font-size: 20px;
+    color: #000;
+    padding-left: 40px;
+    box-sizing: border-box;
+    border-top: 1px solid rgba(255, 255, 255, .1);
+    border-bottom: 1px solid black;
+    transition: .4s;
+}
+
+.admin__menu-item--active {
+    padding-left: 50px;
+    color: #088178;
+}
+
+.admin__menu-item:hover .admin__menu-item-link {
+    padding-left: 50px;
+}
+
+.admin__menu-item-link i {
+    margin-right: 16px;
+}
+
+/* navigate  */
+
+#admin__menu-navigate {
+    display: none;
+
+}
+
+#admin__menu-navigate:checked~.admin__slidebar {
+    left: 0;
+}
+
+#admin__menu-show,
+#admin__menu-hide {
+    position: absolute;
+    cursor: pointer;
+    background: #042331;
+    border-radius: 3px;
+}
+
+#admin__menu-show {
+    left: 40px;
+    top: 25px;
+    font-size: 35px;
+    color: white;
+    padding: 6px 12px;
+    transition: all .5s;
+}
+
+#admin__menu-navigate:checked~label #admin__menu-show {
+    left: 250px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#admin__menu-hide {
+    z-index: 10;
+    left: -195px;
+    top: 17px;
+    font-size: 30px;
+    color: #0a5272;
+    padding: 4px 9px;
+    transition: all .5s ease-out;
+}
+
+#admin__menu-navigate:checked~label #admin__menu-hide {
+    left: 195px;
+}
+
+#admin__menu-navigate:checked~.admin__content {
+    margin-left: 250px;
+}
+
+.admin__content {
+    background: #f2f6fc no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    transition: all .5s;
+}
+
+.admin__edit-user-header {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.admin__edit-user-heading {
+    color: #088178;
+}
