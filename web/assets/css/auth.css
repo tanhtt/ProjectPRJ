@@ -1,0 +1,199 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.hero {
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../../img//blue-night-big-moon-anime-scenery-4k-uo-1920x1080.jpg);
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+}
+
+.form-box {
+    width: 380px;
+    height: 480px;
+    position: relative;
+    margin: 6% 3% 6% 10%;
+    background: #09efff;
+    padding: 5px;
+    border-radius: 50px 5px;
+    overflow: hidden;
+}
+
+.form-box::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 380px;
+    height: 480px;
+    background: linear-gradient(0deg, transparent, transparent, #ffffff, #ffffff, #72d5ff);
+    z-index: 1;
+    transform-origin: bottom right;
+    animation: animate 6s linear infinite;
+}
+
+.form-box::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 380px;
+    height: 480px;
+    background: linear-gradient(0deg, transparent, transparent, #0073ef, #0d9ca4, #ffffff);
+    z-index: 1;
+    transform-origin: bottom right;
+    animation: animate 6s linear infinite;
+    animation-delay: -3s;
+}
+
+@keyframes animate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.form-line {
+    position: absolute;
+    inset: 3px;
+    border-radius: 50px 5px;
+    background: #0582c6;
+    z-index: 10;
+}
+
+.button-box {
+    width: 220px;
+    margin: 35px auto;
+    position: relative;
+    box-shadow: 0 0 24px 9px #ffffff;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.toggle-btn {
+    padding: 10px 30px;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    outline: none;
+    position: relative;
+}
+
+#btn {
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 110px;
+    height: 100%;
+    background: linear-gradient(to right, #fdfffd, #feffff);
+    border-radius: 30px;
+    transition: .5s;
+}
+
+#social-icons {
+    margin: 30px auto;
+    text-align: center;
+}
+
+#social-icons img {
+    width: 35px;
+    margin: 0 12px;
+    box-shadow: 0 0 20px 0 #7f7f7f3d;
+    cursor: pointer;
+}
+
+.form-control {
+    top: 180px;
+    position: absolute;
+    width: 280px;
+    transition: .5s;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-left: 0;
+    border: 1px solid #ffffff;
+    outline: none;
+    background: transparent;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.input-container .placeholder-input {
+    position: absolute;
+    left: 0;
+    top: 6px;
+    padding: 10px;
+    pointer-events: none;
+    font-size: 16px;
+    color: #fff;
+    text-transform: uppercase;
+    transition: .5s;
+}
+
+.input-container input:valid~.placeholder-input,
+.input-container input:focus~.placeholder-input {
+    color: #fff;
+    transform: translateX(10px) translateY(-7px);
+    font-size: 10px;
+    padding: 0 10px;
+    background: #0582c6;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+}
+
+input::placeholder {
+    color: #d7d1d1;
+}
+
+.submit-btn {
+    width: 85%;
+    padding: 10px 30px;
+    margin: auto;
+    cursor: pointer;
+    display: block;
+    background: linear-gradient(to right, #feffff, #ffffff);
+    border: 0;
+    outline: none;
+    border-radius: 30px;
+}
+
+
+.check-box {
+    margin: 30px 10px 30px 0;
+}
+
+.policy {
+    color: #fff;
+    bottom: 66px;
+    font-size: 12px;
+    position: absolute;
+}
+
+#login {
+    left: 50px;
+}
+
+#register {
+    left: 450px;
+}
+
+.placeholder-input {
+    display: inline;
+}
