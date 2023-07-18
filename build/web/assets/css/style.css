@@ -660,7 +660,7 @@ body {
     transform: scale(1.2);
 }
 
-#product1 .pro .pro-contain-img pro-img {
+#product1 .pro .pro-contain-img .pro-img {
     width: 100%;
     border-radius: 20px;
     transition: transform 0.3s ease;
@@ -1380,5 +1380,27 @@ footer .copy-right {
     border: 1px solid #e2e9e1;
     padding: 10px;
     font-size: 13px;
+}
+
+.cart-btn-title {
+    position: relative;
+}
+
+.cart-btn-title::after {
+    content: "Please Login";
+    background-color: #F5F5F5;
+    color: red;
+    padding: 5px;
+    border-radius: 3px;
+    position: absolute;
+    top: 110%;
+    left: 23px;
+    z-index: 9999;
+    border: 1px solid red;
+    display: none;
+}
+
+.cart-btn-title:hover::after {
+    display: block;
 }
 

@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,33 +29,38 @@
         <div>
             <ul id="navbar">
                 <li><a href="index.jsp">Home</a></li>
-                <li><a href="shop.jsp">Shop</a></li>
-                 <li>
-                    <div class="navbar__user">
-                        <img src="./img/user/userimg.png" alt="" class="navbar__user-img">
-                        <span class="navbar__user-name">Username</span>
-                        <div class="navbar__user-menu">
-                            <ul class="navbar__user-menu-list">
-                                <li class="navbar__user-menu-item">
-                                    <a href="#" class="navbar__user-menu-link">Account</a>
-                                </li>
-                                <li class="navbar__user-menu-item">
-                                    <a href="#" class="navbar__user-menu-link">Order</a>
-                                </li>
-                                <li class="navbar__user-menu-item">
-                                    <a href="" class="navbar__user-menu-link">Logout</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li> 
+                <li><a href="shop">Shop</a></li>
+                 <!--User menu-->
+                    <c:if test = "${user != null}">
+                        <li>
+                            <div class="navbar__user">
+                                <img src="./img/user/userimg.png" alt="" class="navbar__user-img">
+                                <span class="navbar__user-name">${user.username}</span>
+                                <div class="navbar__user-menu">
+                                    <ul class="navbar__user-menu-list">
+                                        <li class="navbar__user-menu-item">
+                                            <a href="account.jsp" class="navbar__user-menu-link">Account</a>
+                                        </li>
+                                        <li class="navbar__user-menu-item">
+                                            <a href="" class="navbar__user-menu-link">Order</a>
+                                        </li>
+                                        <li class="navbar__user-menu-item">
+                                            <a href="auth?do-action=logout" class="navbar__user-menu-link">Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li> 
+                    </c:if>
                 
                 <!--Login button-->
-<!--                <li>
-                    <div style="padding: 0;" class="navbar__user">
-                        <a style="width: 100%; padding: 7px;" href="auth.jsp" class="navbar__user-name">Login</a>
-                    </div>
-                </li>-->
+                    <c:if test = "${user == null}">
+                        <li>
+                            <div style="padding: 0;" class="navbar__user">
+                                <a style="width: 100%; padding: 7px;" href="auth.jsp" class="navbar__user-name">Login</a>
+                            </div>
+                        </li>
+                    </c:if>
                 
                 <!--Cart no need-->
                 <!-- <li id="lg-bag">
@@ -113,7 +119,10 @@
                 </li> -->
 
 
-                 <li id="lg-bag"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i></a></li> 
+                 <!--Cart-->
+                    <c:if test = "${user != null}">
+                        <li id="lg-bag"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i></a></li> 
+                            </c:if> 
 
 
                 <a href="#" id="close"><i class="fa fa-times"></i></a>
@@ -130,7 +139,7 @@
         <!-- Account page navigation-->
         <nav class="nav nav-borders">
             <a class="nav-link ms-0" href="account.jsp">Profile</a>
-            <a class="nav-link active" href="edit-password.jsp">Security</a>
+            <a class="nav-link active" href="#">Security</a>
             <a class="nav-link" href="admin.jsp">Admin</a>
         </nav>
         <hr class="mt-0 mb-4">
@@ -142,17 +151,16 @@
                                                                          position: absolute;
                                                                          top: 15px;
                                                                          left: 190px;"><strong>
-                            fail
+                            ${requestScope.error}
                         </strong></span>
                     <span style="color: green;
                           position: absolute;
                           top: 15px;
                           left: 190px;"><strong>
-                            success
+                            ${requestScope.success}
                         </strong></span>
                     <div class="card-body">
-                        <form action="customer-services" method="post">
-                            <input type="hidden" name="do-action" value="editPassword" />
+                        <form action="edit-password" method="post">
                             <!-- Form Group (current password)-->
                             <div class="mb-3">
                                 <label class="small mb-1" for="currentPassword">Current Password</label>
@@ -179,6 +187,59 @@
             </div>
         </div>
     </div>
+                        <footer class="section-p1">
+            <div class="col">
+                <img class="logo" src="./img/140-1401926_r-anime-logo-high-resolution-anime-girl-logo.png" alt="">
+                <h4>Contact</h4>
+                <p><strong>Address: </strong>562 Wellington Road, Street 32, San Francisco</p>
+                <p><strong>Phone: </strong>0395786062</p>
+                <p><strong>Hours: </strong>10:00 - 18:00, Mon - Sat</p>
+
+                <div class="follow">
+                    <h4>Follow Us</h4>
+                    <div class="icon">
+                        <i class="fab fa-facebook-f"></i>
+                        <i class="fab fa-twitter"></i>
+                        <i class="fab fa-instagram"></i>
+                        <i class="fab fa-pinterest-p"></i>
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <h4>About</h4>
+                <a href="#">About Us</a>
+                <a href="#">Delivery Information</a>
+                <a href="#">Privacy Pocicy</a>
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Contact Us</a>
+            </div>
+
+            <div class="col">
+                <h4>My Account</h4>
+                <a href="#">Sign In</a>
+                <a href="#">View Cart</a>
+                <a href="#">My Wishlist</a>
+                <a href="#">Track My Order</a>
+                <a href="#">Help</a>
+            </div>
+
+            <div class="col install">
+                <h4>Install App</h4>
+                <p>From App Store or Google Play</p>
+                <div class="row">
+                    <img src="./img/pay/app.jpg" alt="">
+                    <img src="./img/pay/play.jpg" alt="">
+                </div>
+                <p>Secured Payment Gateways</p>
+                <img src="./img/pay/pay.png" alt="">
+            </div>
+
+            <div class="copy-right">
+                <p>2021, Tech2 etc - HTML CSS Ecommerce Template</p>
+            </div>
+        </footer>
     <script>
         function checkPassMatch() {
             var password = document.getElementById("newPassword").value;

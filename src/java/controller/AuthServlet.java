@@ -67,10 +67,12 @@ public class AuthServlet extends HttpServlet {
             if (rememberMe != null && rememberMe.equals("true")) {
                 // Remember me checkbox is selected, set session timeout to a longer duration
                 session.setMaxInactiveInterval(7 * 24 * 60 * 60); // 7 days
-            } else {
-                // Remember me checkbox is not selected, set default session timeout
-                session.setMaxInactiveInterval(30 * 60); // 30 minutes
             }
+            if(account.isIsUser() == false){
+                String adminPermiss = "has";
+                session.setAttribute("adminPermission", adminPermiss);
+            }
+            session.setMaxInactiveInterval(60 * 60);
             url = "/index.jsp";
         } else {
             request.setAttribute("errorLogin", "Username or Password is not right!");

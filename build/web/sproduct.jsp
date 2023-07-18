@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:useBean id="bookBean" class="database.BookDAOBean" scope="request" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,33 +41,38 @@
         <div>
             <ul id="navbar">
                 <li><a class="active" href="index.jsp">Home</a></li>
-                <li><a href="shop.jsp">Shop</a></li>
-                 <li>
-                    <div class="navbar__user">
-                        <img src="./img/user/userimg.png" alt="" class="navbar__user-img">
-                        <span class="navbar__user-name">Username</span>
-                        <div class="navbar__user-menu">
-                            <ul class="navbar__user-menu-list">
-                                <li class="navbar__user-menu-item">
-                                    <a href="account.jsp" class="navbar__user-menu-link">Account</a>
-                                </li>
-                                <li class="navbar__user-menu-item">
-                                    <a href="" class="navbar__user-menu-link">Order</a>
-                                </li>
-                                <li class="navbar__user-menu-item">
-                                    <a href="" class="navbar__user-menu-link">Logout</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li> 
+                <li><a href="shop">Shop</a></li>
+                 <!--User menu-->
+                    <c:if test = "${user != null}">
+                        <li>
+                            <div class="navbar__user">
+                                <img src="./img/user/userimg.png" alt="" class="navbar__user-img">
+                                <span class="navbar__user-name">${user.username}</span>
+                                <div class="navbar__user-menu">
+                                    <ul class="navbar__user-menu-list">
+                                        <li class="navbar__user-menu-item">
+                                            <a href="account.jsp" class="navbar__user-menu-link">Account</a>
+                                        </li>
+                                        <li class="navbar__user-menu-item">
+                                            <a href="" class="navbar__user-menu-link">Order</a>
+                                        </li>
+                                        <li class="navbar__user-menu-item">
+                                            <a href="auth?do-action=logout" class="navbar__user-menu-link">Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li> 
+                    </c:if>
                 
                 <!--Login button-->
-<!--                <li>
-                    <div style="padding: 0;" class="navbar__user">
-                        <a style="width: 100%; padding: 7px;" href="auth.jsp" class="navbar__user-name">Login</a>
-                    </div>
-                </li>-->
+                    <c:if test = "${user == null}">
+                        <li>
+                            <div style="padding: 0;" class="navbar__user">
+                                <a style="width: 100%; padding: 7px;" href="auth.jsp" class="navbar__user-name">Login</a>
+                            </div>
+                        </li>
+                    </c:if>
                 
                 <!--Cart no need-->
                 <!-- <li id="lg-bag">
@@ -123,7 +131,10 @@
                 </li> -->
 
 
-                 <li id="lg-bag"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i></a></li> 
+                 <!--Cart-->
+                    <c:if test = "${user != null}">
+                        <li id="lg-bag"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i></a></li> 
+                            </c:if>
 
 
                 <a href="#" id="close"><i class="fa fa-times"></i></a>
@@ -134,14 +145,16 @@
             <i id="bar" class="fas fa-outdent"></i>
         </div>
     </section>
+    
+    <c:set var="bookDetail" value='${requestScope.data}' />
 
     <section id="prodetails" class="section-p1">
         <div class="single-pro-img">
-            <img src="./img/products/f1.jpg" width="100%" id="MainImg" alt="">
+            <img src="${bookDetail.img}" width="100%" id="MainImg" alt="">
 
-            <div class="small-img-group">
+<!--            <div class="small-img-group">
                 <div class="small-img-col">
-                    <img src="./img/products/f1.jpg" width="100%" class="small-img" alt="">
+                    <img src="${bookDetail.img}" width="100%" class="small-img" alt="">
                 </div>
                 <div class="small-img-col">
                     <img src="./img/products/f3.jpg" width="100%" class="small-img" alt="">
@@ -152,111 +165,52 @@
                 <div class="small-img-col">
                     <img src="./img/products/f4.jpg" width="100%" class="small-img" alt="">
                 </div>
-            </div>
+            </div>-->
         </div>
         <div class="single-pro-details">
-            <h6>Home / T-shirt</h6>
-            <h4>Men's Fashion T Shirt</h4>
-            <h2>$139.00</h2>
-            <select>
-                <option>Seclet Size</option>
-                <option>XL</option>
-                <option>XXL</option>
-                <option>Small</option>
-                <option>Large</option>
-            </select>
-
-            <input type="number" value="1">
-            <button class="normal">Add To Cart</button>
-            <h4>Product Details</h4>
-            <span>You've now found the staple t-shirt of your wardrobe. It's made of a thicker, heavier cotton, but it's
-                still soft and comfy. And the double stitching on the neckline and sleeves add more durability to what
-                is sure to be a favorite! Whiskey inspired E85 85% content Ethanol fuel for race cars and high
-                performance machines. Ethanol E85 Fuel Shirt.</span>
+            <h6>Home / ${bookDetail.getCategory().getCategoryName()}</h6>
+            <h4>${bookDetail.name}</h4>
+            <h2>${bookDetail.price} vnđ</h2>
+            
+            <input type="number" value="1" min="0">
+            <c:if test = "${user == null}">
+                <button class="normal cart-btn-title" >Add To Cart</button>
+            </c:if>
+            <c:if test = "${user != null}">
+                  <button class="normal" onclick="window.location.href='addToCart?id=${bookDetail.id}'">Add To Cart</button>
+            </c:if>
+            
+            <h4>Book Details</h4>
+            <span>${bookDetail.description}</span>
 
         </div>
     </section>
 
     <section id="product1" class="section-p1">
         <h2>Featured Products</h2>
-        <p>Summer Cpllection New Morden Design</p>
+        <p>Summer Collection</p>
         <div class="pro-container">
-            <div class="pro" onclick="window.location.href='sproduct.jsp';">
-                <div class="pro-contain-img">
-                    <img src="./img/products/n1.jpg" alt="">
-                </div>
-                <div class="des">
-                    <span>manga</span>
-                    <h5>Jujutsu Kaise</h5>
-                    <span>by <span class="product1__author">Tan</span></span>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+            <c:forEach items="${bookBean.selectAll()}" var="book" begin="2" end="5">
+                    <div class="pro" onclick="window.location.href = 'product?id=${book.id}';">
+                        <div class="pro-contain-img">
+                            <img  class="pro-img" src="${book.img}" alt="">
+                        </div>
+                        <div class="des">
+                            <span>${book.getCategory().getCategoryName()}</span>
+                            <h5>${book.name}</h5>
+                            <span>by <span class="product1__author">${book.author}</span></span>
+                            <div class="star">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h4>${book.price} vnđ</h4>
+                        </div>
+                        <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
                     </div>
-                    <h4>$78</h4>
-                </div>
-                <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-            </div>
-            <div class="pro" onclick="window.location.href='sproduct.jsp';">
-                <div class="pro-contain-img">
-                    <img src="./img/products/n1.jpg" alt="">
-                </div>
-                <div class="des">
-                    <span>manga</span>
-                    <h5>Jujutsu Kaise</h5>
-                    <span>by <span class="product1__author">Tan</span></span>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h4>$78</h4>
-                </div>
-                <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-            </div>
-            <div class="pro" onclick="window.location.href='sproduct.jsp';">
-                <div class="pro-contain-img">
-                    <img src="./img/products/n1.jpg" alt="">
-                </div>
-                <div class="des">
-                    <span>manga</span>
-                    <h5>Jujutsu Kaise</h5>
-                    <span>by <span class="product1__author">Tan</span></span>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h4>$78</h4>
-                </div>
-                <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-            </div>
-            <div class="pro" onclick="window.location.href='sproduct.jsp';">
-                <div class="pro-contain-img">
-                    <img src="./img/products/n1.jpg" alt="">
-                </div>
-                <div class="des">
-                    <span>manga</span>
-                    <h5>Jujutsu Kaise</h5>
-                    <span>by <span class="product1__author">Tan</span></span>
-                    <div class="star">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h4>$78</h4>
-                </div>
-                <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-            </div>
+                </c:forEach>
         </div>
     </section>
 

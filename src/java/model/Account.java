@@ -26,10 +26,27 @@ public class Account {
     public Account() {
     }
 
+    public Account(String username) {
+        this.username = username;
+    }
+    
+
     public Account(String username, String password, boolean isUser, String fullname, String gender, String address, String deliveryAddress, Date dateOfBirth, String tel, String email, String srcAvatar) {
         this.username = username;
         this.password = password;
         this.isUser = isUser;
+        this.fullname = fullname;
+        this.gender = gender;
+        this.address = address;
+        this.deliveryAddress = deliveryAddress;
+        this.dateOfBirth = dateOfBirth;
+        this.tel = tel;
+        this.email = email;
+        this.srcAvatar = srcAvatar;
+    }
+
+    public Account(String username, String fullname, String gender, String address, String deliveryAddress, Date dateOfBirth, String tel, String email, String srcAvatar) {
+        this.username = username;
         this.fullname = fullname;
         this.gender = gender;
         this.address = address;

@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,33 +29,38 @@
         <div>
             <ul id="navbar">
                 <li><a href="index.jsp">Home</a></li>
-                <li><a href="shop.jsp">Shop</a></li>
-                 <li>
-                    <div class="navbar__user">
-                        <img src="./img/user/userimg.png" alt="" class="navbar__user-img">
-                        <span class="navbar__user-name">Username</span>
-                        <div class="navbar__user-menu">
-                            <ul class="navbar__user-menu-list">
-                                <li class="navbar__user-menu-item">
-                                    <a href="#" class="navbar__user-menu-link">Account</a>
-                                </li>
-                                <li class="navbar__user-menu-item">
-                                    <a href="#" class="navbar__user-menu-link">Order</a>
-                                </li>
-                                <li class="navbar__user-menu-item">
-                                    <a href="" class="navbar__user-menu-link">Logout</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li> 
+                <li><a href="shop">Shop</a></li>
+                 <!--User menu-->
+                    <c:if test = "${user != null}">
+                        <li>
+                            <div class="navbar__user">
+                                <img src="./img/user/userimg.png" alt="" class="navbar__user-img">
+                                <span class="navbar__user-name">${user.username}</span>
+                                <div class="navbar__user-menu">
+                                    <ul class="navbar__user-menu-list">
+                                        <li class="navbar__user-menu-item">
+                                            <a href="account.jsp" class="navbar__user-menu-link">Account</a>
+                                        </li>
+                                        <li class="navbar__user-menu-item">
+                                            <a href="" class="navbar__user-menu-link">Order</a>
+                                        </li>
+                                        <li class="navbar__user-menu-item">
+                                            <a href="auth?do-action=logout" class="navbar__user-menu-link">Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li> 
+                    </c:if>
                 
                 <!--Login button-->
-<!--                <li>
-                    <div style="padding: 0;" class="navbar__user">
-                        <a style="width: 100%; padding: 7px;" href="auth.jsp" class="navbar__user-name">Login</a>
-                    </div>
-                </li>-->
+                    <c:if test = "${user == null}">
+                        <li>
+                            <div style="padding: 0;" class="navbar__user">
+                                <a style="width: 100%; padding: 7px;" href="auth.jsp" class="navbar__user-name">Login</a>
+                            </div>
+                        </li>
+                    </c:if>
                 
                 <!--Cart no need-->
                 <!-- <li id="lg-bag">
@@ -113,7 +119,10 @@
                 </li> -->
 
 
-                 <li id="lg-bag"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i></a></li> 
+                <!--Cart-->
+                    <c:if test = "${user != null}">
+                        <li id="lg-bag"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i></a></li> 
+                            </c:if> 
 
 
                 <a href="#" id="close"><i class="fa fa-times"></i></a>
@@ -131,7 +140,11 @@
         <nav class="nav nav-borders">
             <a class="nav-link active ms-0" href="#">Profile</a>
             <a class="nav-link" href="edit-password.jsp">Security</a>
-            <a class="nav-link" href="admin.jsp">Admin</a>
+
+            <c:if test = "${adminPermission != null}">
+                   <a class="nav-link" href="admin.jsp">Admin</a>
+            </c:if> 
+            
         </nav>
         <hr class="mt-0 mb-4">
         <div class="row">
@@ -153,13 +166,17 @@
                 <!-- Account details card-->
                 <div class="card mb-4">
                     <div class="card-header">Account Details</div>
+                    <span style="color: green;
+                                                                            position: absolute;
+                                                                            top: 16px;
+                                                                            left: 167px;"><strong>${requestScope.msg}</strong></span>
                     <div class="card-body">
-                        <form>
+                        <form action="edit-account" method="post">
                             <!-- Form Group (username)-->
                             <div class="mb-3">
                                 <label class="small mb-1" for="inputFullname">Fullname</label>
                                 <input class="form-control" id="inputFullname" type="text"
-                                    placeholder="Enter your fullname" value="Fullname" name="fullname">
+                                    placeholder="Enter your fullname" value="${user.fullname}" name="fullname">
                             </div>
                             <!-- Form Row-->
                             <div class="row gx-3 mb-3">
@@ -167,7 +184,7 @@
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputUsername">Username</label>
                                     <input class="form-control" id="inputUsername" type="text"
-                                        placeholder="Enter your username" value="Username" name="username">
+                                           placeholder="Enter your username" value="${user.username}" disabled name="username">
                                 </div>
                                 <!-- Form Group (last name)-->
                                 <div class="col-md-6">
@@ -176,10 +193,9 @@
                                         placeholder="Enter your last name" value="Luna"> -->
                                     <select class="form-control" id="inputGender" name="gender">
                                         <option disabled>Gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Wibuu">Wibuu</option>
-                                        <option value="Other">Other</option>
+                                        <option value="Male" ${(user.gender == "Male")?"selected":""}>Male</option>
+                                        <option value="Female" ${(user.gender == "Female")?"selected":""}>Female</option>
+                                        <option value="Other" ${(user.gender == "Other")?"selected":""}>Other</option>
                                     </select>
                                 </div>
                             </div>
@@ -189,13 +205,13 @@
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputLocation">Location</label>
                                     <input class="form-control" id="inputLocation" type="text"
-                                        placeholder="Enter your location" value="" name="location">
+                                        placeholder="Enter your location" value="${user.address}" name="location">
                                 </div>
                                 <!-- Form Group (location)-->
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputDelivery">Delivery address</label>
                                     <input class="form-control" id="inputDelivery" type="text"
-                                        placeholder="Enter your delivery address" value="San Francisco, CA"
+                                        placeholder="Enter your delivery address" value="${user.deliveryAddress}"
                                         name="deliveryAddress">
                                 </div>
                             </div>
@@ -203,7 +219,7 @@
                             <div class="mb-3">
                                 <label class="small mb-1" for="inputEmailAddress">Email address</label>
                                 <input class="form-control" id="inputEmailAddress" type="email"
-                                    placeholder="Enter your email address" value="name@example.com" name="email">
+                                    placeholder="Enter your email address" value="${user.email}" name="email">
                             </div>
                             <!-- Form Row-->
                             <div class="row gx-3 mb-3">
@@ -211,23 +227,76 @@
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputPhone">Phone number</label>
                                     <input class="form-control" id="inputPhone" type="tel"
-                                        placeholder="Enter your phone number" value="555-123-4567">
+                                           placeholder="Enter your phone number" value="${user.tel}" name="tel">
                                 </div>
                                 <!-- Form Group (birthday)-->
                                 <div class="col-md-6">
                                     <label class="small mb-1" for="inputBirthday">Birthday</label>
                                     <input class="form-control" id="inputBirthday" type="date" name="birthday"
-                                        placeholder="Enter your birthday" value="06/10/1988">
+                                        placeholder="Enter your birthday" value="${user.dateOfBirth}">
                                 </div>
                             </div>
                             <!-- Save changes button-->
-                            <button class="btn btn-primary" type="button">Save changes</button>
+                            <button class="btn btn-primary" type="submit">Save changes</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+                                <footer class="section-p1">
+            <div class="col">
+                <img class="logo" src="./img/140-1401926_r-anime-logo-high-resolution-anime-girl-logo.png" alt="">
+                <h4>Contact</h4>
+                <p><strong>Address: </strong>562 Wellington Road, Street 32, San Francisco</p>
+                <p><strong>Phone: </strong>0395786062</p>
+                <p><strong>Hours: </strong>10:00 - 18:00, Mon - Sat</p>
+
+                <div class="follow">
+                    <h4>Follow Us</h4>
+                    <div class="icon">
+                        <i class="fab fa-facebook-f"></i>
+                        <i class="fab fa-twitter"></i>
+                        <i class="fab fa-instagram"></i>
+                        <i class="fab fa-pinterest-p"></i>
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <h4>About</h4>
+                <a href="#">About Us</a>
+                <a href="#">Delivery Information</a>
+                <a href="#">Privacy Pocicy</a>
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Contact Us</a>
+            </div>
+
+            <div class="col">
+                <h4>My Account</h4>
+                <a href="#">Sign In</a>
+                <a href="#">View Cart</a>
+                <a href="#">My Wishlist</a>
+                <a href="#">Track My Order</a>
+                <a href="#">Help</a>
+            </div>
+
+            <div class="col install">
+                <h4>Install App</h4>
+                <p>From App Store or Google Play</p>
+                <div class="row">
+                    <img src="./img/pay/app.jpg" alt="">
+                    <img src="./img/pay/play.jpg" alt="">
+                </div>
+                <p>Secured Payment Gateways</p>
+                <img src="./img/pay/pay.png" alt="">
+            </div>
+
+            <div class="copy-right">
+                <p>2021, Tech2 etc - HTML CSS Ecommerce Template</p>
+            </div>
+        </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>

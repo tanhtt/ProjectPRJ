@@ -4,8 +4,14 @@
     Author     : ADMIN
 --%>
 
+<%@page import="database.BookDAOBean"%>
+<%@page import="java.util.List"%>
+<%@page import="model.Cart"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<jsp:useBean id="bookBean" class="database.BookDAOBean" scope="request" />
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,115 +38,130 @@
 
     <body>
         <section id="header">
-        <a href="#"><img src="./img/140-1401926_r-anime-logo-high-resolution-anime-girl-logo.png" class="logo"
-                alt=""></a>
+            <a href="#"><img src="./img/140-1401926_r-anime-logo-high-resolution-anime-girl-logo.png" class="logo"
+                             alt=""></a>
 
-        <div>
-            <ul id="navbar">
-                <li><a href="index.jsp">Home</a></li>
-                <li><a href="shop.jsp">Shop</a></li>
-                 <li>
-                    <div class="navbar__user">
-                        <img src="./img/user/userimg.png" alt="" class="navbar__user-img">
-                        <span class="navbar__user-name">Username</span>
-                        <div class="navbar__user-menu">
-                            <ul class="navbar__user-menu-list">
-                                <li class="navbar__user-menu-item">
-                                    <a href="account.jsp" class="navbar__user-menu-link">Account</a>
-                                </li>
-                                <li class="navbar__user-menu-item">
-                                    <a href="" class="navbar__user-menu-link">Order</a>
-                                </li>
-                                <li class="navbar__user-menu-item">
-                                    <a href="" class="navbar__user-menu-link">Logout</a>
-                                </li>
-                            </ul>
+            <div>
+                <ul id="navbar">
+                    <li><a href="index.jsp">Home</a></li>
+                    <li><a href="shop">Shop</a></li>
+                    <!--User menu-->
+                    <c:if test = "${user != null}">
+                        <li>
+                            <div class="navbar__user">
+                                <img src="./img/user/userimg.png" alt="" class="navbar__user-img">
+                                <span class="navbar__user-name">${user.username}</span>
+                                <div class="navbar__user-menu">
+                                    <ul class="navbar__user-menu-list">
+                                        <li class="navbar__user-menu-item">
+                                            <a href="account.jsp" class="navbar__user-menu-link">Account</a>
+                                        </li>
+                                        <li class="navbar__user-menu-item">
+                                            <a href="" class="navbar__user-menu-link">Order</a>
+                                        </li>
+                                        <li class="navbar__user-menu-item">
+                                            <a href="auth?do-action=logout" class="navbar__user-menu-link">Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li> 
+                    </c:if>
+
+                    <!--Login button-->
+                    <c:if test = "${user == null}">
+                        <li>
+                            <div style="padding: 0;" class="navbar__user">
+                                <a style="width: 100%; padding: 7px;" href="auth.jsp" class="navbar__user-name">Login</a>
+                            </div>
+                        </li>
+                    </c:if>
+
+                    <!--Cart no need-->
+                    <!-- <li id="lg-bag">
+                        <div class="navbar__cart">
+                            <a style="text-decoration: none;" class="navbar__cart-link" href="#">
+                                <i class="navbar__cart-icon fa-solid fa-cart-shopping"></i>
+                            </a>
+                            <span class="navbar__cart-notice">2</span> -->
+                    <!-- navbar__cart-list--no-cart add when no product  -->
+                    <!-- <div class="navbar__cart-list">
+                                <img src="./img/cart/no-product-found.png" alt="" class="navbar__cart-list--no-cart-img">
+                                <h4 class="navbar__cart-heading">Products In Cart</h4>
+                                <ul class="navbar__cart-list-item">
+                                    <li class="navbar__cart-item">
+                                        <img src="../img/products/f1.jpg" alt="" class="navbar__cart-item-img">
+                                        <div class="navbar__cart-item-info">
+                                            <div class="navbar__cart-item-head">
+                                                <h5 class="navbar__cart-item-name">Jujutsu Kaisen</h5>
+                                                <div class="navbar__cart-item-price-wrap">
+                                                    <span class="navbar__cart-item-price">$45</span>
+                                                    <span class="navbar__cart-item-multiply">x</span>
+                                                    <span class="navbar__cart-item-qnt">2</span>
+                                                </div>
+                                            </div>
+                                            <div class="navbar__cart-item-body">
+                                                <div class="header__cart-item-description">
+                                                    Category: Manga
+                                                </div>
+                                                <span class="header__cart-item-remove">Remove</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="navbar__cart-item">
+                                        <img src="../img/products/f2.jpg" alt="" class="navbar__cart-item-img">
+                                        <div class="navbar__cart-item-info">
+                                            <div class="navbar__cart-item-head">
+                                                <h5 class="navbar__cart-item-name">Jujutsu Kaisen</h5>
+                                                <div class="navbar__cart-item-price-wrap">
+                                                    <span class="navbar__cart-item-price">$50</span>
+                                                    <span class="navbar__cart-item-multiply">x</span>
+                                                    <span class="navbar__cart-item-qnt">1</span>
+                                                </div>
+                                            </div>
+                                            <div class="navbar__cart-item-body">
+                                                <div class="header__cart-item-description">
+                                                    Category: Manga
+                                                </div>
+                                                <span class="header__cart-item-remove">Remove</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <a href="cart.html" class="navbar__cart-btn normal">View All</a>
+                            </div>
                         </div>
-                    </div>
-                </li> 
-                
-                <!--Login button-->
-<!--                <li>
-                    <div style="padding: 0;" class="navbar__user">
-                        <a style="width: 100%; padding: 7px;" href="auth.jsp" class="navbar__user-name">Login</a>
-                    </div>
-                </li>-->
-                
-                <!--Cart no need-->
-                <!-- <li id="lg-bag">
-                    <div class="navbar__cart">
-                        <a style="text-decoration: none;" class="navbar__cart-link" href="#">
-                            <i class="navbar__cart-icon fa-solid fa-cart-shopping"></i>
-                        </a>
-                        <span class="navbar__cart-notice">2</span> -->
-                <!-- navbar__cart-list--no-cart add when no product  -->
-                <!-- <div class="navbar__cart-list">
-                            <img src="./img/cart/no-product-found.png" alt="" class="navbar__cart-list--no-cart-img">
-                            <h4 class="navbar__cart-heading">Products In Cart</h4>
-                            <ul class="navbar__cart-list-item">
-                                <li class="navbar__cart-item">
-                                    <img src="../img/products/f1.jpg" alt="" class="navbar__cart-item-img">
-                                    <div class="navbar__cart-item-info">
-                                        <div class="navbar__cart-item-head">
-                                            <h5 class="navbar__cart-item-name">Jujutsu Kaisen</h5>
-                                            <div class="navbar__cart-item-price-wrap">
-                                                <span class="navbar__cart-item-price">$45</span>
-                                                <span class="navbar__cart-item-multiply">x</span>
-                                                <span class="navbar__cart-item-qnt">2</span>
-                                            </div>
-                                        </div>
-                                        <div class="navbar__cart-item-body">
-                                            <div class="header__cart-item-description">
-                                                Category: Manga
-                                            </div>
-                                            <span class="header__cart-item-remove">Remove</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="navbar__cart-item">
-                                    <img src="../img/products/f2.jpg" alt="" class="navbar__cart-item-img">
-                                    <div class="navbar__cart-item-info">
-                                        <div class="navbar__cart-item-head">
-                                            <h5 class="navbar__cart-item-name">Jujutsu Kaisen</h5>
-                                            <div class="navbar__cart-item-price-wrap">
-                                                <span class="navbar__cart-item-price">$50</span>
-                                                <span class="navbar__cart-item-multiply">x</span>
-                                                <span class="navbar__cart-item-qnt">1</span>
-                                            </div>
-                                        </div>
-                                        <div class="navbar__cart-item-body">
-                                            <div class="header__cart-item-description">
-                                                Category: Manga
-                                            </div>
-                                            <span class="header__cart-item-remove">Remove</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <a href="cart.html" class="navbar__cart-btn normal">View All</a>
-                        </div>
-                    </div>
-                </li> -->
+                    </li> -->
 
 
-                 <li id="lg-bag"><a class="active" href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i></a></li> 
+                    <!--Cart-->
+                    <c:if test = "${user != null}">
+                        <li id="lg-bag"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i></a></li> 
+                            </c:if>
 
 
-                <a href="#" id="close"><i class="fa fa-times"></i></a>
-            </ul>
-        </div>
-        <div id="mobile">
-            <a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
-            <i id="bar" class="fas fa-outdent"></i>
-        </div>
-    </section>
+                    <a href="#" id="close"><i class="fa fa-times"></i></a>
+                </ul>
+            </div>
+            <div id="mobile">
+                <a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+                <i id="bar" class="fas fa-outdent"></i>
+            </div>
+        </section>
 
 
         <section id="page-header" class="about-header">
             <h2>#cart</h2>
             <p>Add your coupon code & SAVE upto 70%</p>
         </section>
-
+        <%
+            ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart");
+            if (cart_list != null) {
+                BookDAOBean bdb = new BookDAOBean();
+                double total = bdb.getTotalPrice(cart_list);
+                request.setAttribute("total", total);
+            }
+        %>
         <section id="cart" class="section-p1">
             <table width="100%">
                 <thead>
@@ -152,30 +173,18 @@
                 <td>Subtotal</td>
                 </thead>
                 <tbody>
+                <c:forEach items="${sessionScope.cart}" var="c">
                     <tr>
-                        <td><a href="#"><i class="far fa-times-circle"></i></a></td>
-                        <td><img src="./img/products/f1.jpg" alt=""></td>
-                        <td>Cartoon Astronaut T-Shirts</td>
-                        <td>$118.0</td>
-                        <td><input type="number" value="1"></td>
-                        <td>$118.0</td>
+                        <td><a href="remove?id=${c.id}"><i class="far fa-times-circle"></i></a></td>
+                        <td><img src="${c.img}" alt=""></td>
+                        <td>${c.name}</td>
+                        <td>${c.price} vnđ</td>
+                        <td><button><a href="quality-inc-dec?action=dec&id=${c.id}">-</a></button>
+                            <input type="text" value="${c.quality}" readonly name="quality">
+                            <button><a href="quality-inc-dec?action=inc&id=${c.id}">+</a></button></td>
+                        <td><fmt:formatNumber type = "number" maxIntegerDigits = "4" value = "${c.price * c.quality}" /> vnđ</td>
                     </tr>
-                    <tr>
-                        <td><a href="#"><i class="far fa-times-circle"></i></a></td>
-                        <td><img src="./img/products/f2.jpg" alt=""></td>
-                        <td>Cartoon Astronaut T-Shirts</td>
-                        <td>$118.0</td>
-                        <td><input type="number" value="1"></td>
-                        <td>$118.0</td>
-                    </tr>
-                    <tr>
-                        <td><a href="#"><i class="far fa-times-circle"></i></a></td>
-                        <td><img src="./img/products/f3.jpg" alt=""></td>
-                        <td>Cartoon Astronaut T-Shirts</td>
-                        <td>$118.0</td>
-                        <td><input type="number" value="1"></td>
-                        <td>$118.0</td>
-                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </section>
@@ -193,7 +202,7 @@
                 <table>
                     <tr>
                         <td>Cart Subtotal</td>
-                        <td>$ 355</td>
+                        <td>${(total>0)?total:0} vnđ</td>
                     </tr>
                     <tr>
                         <td>Shipping</td>
@@ -201,10 +210,22 @@
                     </tr>
                     <tr>
                         <td><strong>Total</strong></td>
-                        <td><strong>$ 355</strong></td>
+                        <td><strong>${(total>0)?total:0} vnđ</strong></td>
                     </tr>
                 </table>
-                <button class="normal">Proceed to checkout</button>
+                <form action="addToCart" method="post">
+                    <button class="normal" type="submit">Proceed to checkout</button>
+                </form>
+                <%
+                    String msg = (String) request.getAttribute("msg");
+                    if (msg != null) {
+                %>
+
+                <h1>${requestScope.msg}</h1>
+
+                <%
+                    }
+                %>
             </div>
         </section>
 

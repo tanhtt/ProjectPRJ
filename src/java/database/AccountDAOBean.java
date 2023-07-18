@@ -70,6 +70,48 @@ public class AccountDAOBean implements DAOInterface<Account>, Serializable {
             Connection con = JDBCUtil.getConnection();
 
             // Bước 2: tạo ra đối tượng statement
+            String sql = getAllSQL+" WHERE username=? and pass=?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, t.getUsername());
+            st.setString(2, t.getPassword());
+
+            // Bước 3: thực thi câu lệnh SQL
+            System.out.println(sql);
+            ResultSet rs = st.executeQuery();
+
+            // Bước 4:
+            while (rs.next()) {
+                String username = rs.getString(1);
+                String password = rs.getString(2);
+                boolean isUser = rs.getInt(3) == 0 ? false : true;
+                String email = rs.getString(4);
+                String address = rs.getString(5);
+                Date dob = rs.getDate(6);
+                String tel = rs.getString(7);
+                String srcAvatar = rs.getString(8);
+                String fullname = rs.getString(9);
+                String gender = rs.getString(10);
+                String deliveryAddress = rs.getString(11);
+
+                account = new Account(username, password, isUser, fullname, gender, address, deliveryAddress, dob, tel, email, srcAvatar);
+                break;
+            }
+
+            // Bước 5:
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return account;
+    }
+    
+    public Account selectByUser(Account t) {
+        Account account = null;
+        try {
+            // Bước 1: tạo kết nối đến CSDL
+            Connection con = JDBCUtil.getConnection();
+
+            // Bước 2: tạo ra đối tượng statement
             String sql = getAllSQL+" WHERE username=?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, t.getUsername());
@@ -208,6 +250,45 @@ public class AccountDAOBean implements DAOInterface<Account>, Serializable {
             ps.setString(8, t.getFullname());
             ps.setString(9, t.getGender());
             ps.setString(10, t.getDeliveryAddress());            
+
+            System.out.println(sql);
+            count = ps.executeUpdate();
+
+            System.out.println("You excuted: " + sql);
+            System.out.println("There is " + count + " row changed!");
+
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+    
+    public int updateUser(Account t) {
+        int count = 0;
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = updateSQL
+                    + ", email=?"
+                    + ", address=?"
+                    + ", dob=?"
+                    + ", tel=?"
+                    + ", srcAvatar=?"
+                    + ", fullname=?"
+                    + ", gender=?"
+                    + ", deliveryAddress=?"
+                    + " WHERE username=?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(9, t.getUsername());
+            ps.setString(1, t.getEmail());
+            ps.setString(2, t.getAddress());
+            ps.setDate(3, t.getDateOfBirth());
+            ps.setString(4, t.getTel());
+            ps.setString(5, t.getSrcAvatar());
+            ps.setString(6, t.getFullname());
+            ps.setString(7, t.getGender());
+            ps.setString(8, t.getDeliveryAddress());            
 
             System.out.println(sql);
             count = ps.executeUpdate();

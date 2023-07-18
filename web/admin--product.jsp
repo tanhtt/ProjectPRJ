@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="bookBean" class="database.BookDAOBean" scope="request" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,33 +32,38 @@
         <div>
             <ul id="navbar">
                 <li><a href="index.jsp">Home</a></li>
-                <li><a href="shop.jsp">Shop</a></li>
-                 <li>
-                    <div class="navbar__user">
-                        <img src="./img/user/userimg.png" alt="" class="navbar__user-img">
-                        <span class="navbar__user-name">Username</span>
-                        <div class="navbar__user-menu">
-                            <ul class="navbar__user-menu-list">
-                                <li class="navbar__user-menu-item">
-                                    <a href="#" class="navbar__user-menu-link">Account</a>
-                                </li>
-                                <li class="navbar__user-menu-item">
-                                    <a href="#" class="navbar__user-menu-link">Order</a>
-                                </li>
-                                <li class="navbar__user-menu-item">
-                                    <a href="" class="navbar__user-menu-link">Logout</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li> 
+                <li><a href="shop">Shop</a></li>
+                <!--User menu-->
+                    <c:if test = "${user != null}">
+                        <li>
+                            <div class="navbar__user">
+                                <img src="./img/user/userimg.png" alt="" class="navbar__user-img">
+                                <span class="navbar__user-name">${user.username}</span>
+                                <div class="navbar__user-menu">
+                                    <ul class="navbar__user-menu-list">
+                                        <li class="navbar__user-menu-item">
+                                            <a href="account.jsp" class="navbar__user-menu-link">Account</a>
+                                        </li>
+                                        <li class="navbar__user-menu-item">
+                                            <a href="" class="navbar__user-menu-link">Order</a>
+                                        </li>
+                                        <li class="navbar__user-menu-item">
+                                            <a href="auth?do-action=logout" class="navbar__user-menu-link">Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li> 
+                    </c:if>
                 
                 <!--Login button-->
-<!--                <li>
-                    <div style="padding: 0;" class="navbar__user">
-                        <a style="width: 100%; padding: 7px;" href="auth.jsp" class="navbar__user-name">Login</a>
-                    </div>
-                </li>-->
+                    <c:if test = "${user == null}">
+                        <li>
+                            <div style="padding: 0;" class="navbar__user">
+                                <a style="width: 100%; padding: 7px;" href="auth.jsp" class="navbar__user-name">Login</a>
+                            </div>
+                        </li>
+                    </c:if>
                 
                 <!--Cart no need-->
                 <!-- <li id="lg-bag">
@@ -115,7 +122,10 @@
                 </li> -->
 
 
-                 <li id="lg-bag"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i></a></li> 
+                <!--Cart-->
+                    <c:if test = "${user != null}">
+                        <li id="lg-bag"><a href="cart.jsp"><i class="fa-solid fa-bag-shopping"></i></a></li> 
+                            </c:if> 
 
 
                 <a href="#" id="close"><i class="fa fa-times"></i></a>
@@ -137,7 +147,7 @@
         </nav>
         <hr class="mt-0 mb-4">
     </div>
-    <div class="admin__container">
+    <div class="admin__container" style="margin-bottom: 50px;">
         <input type="checkbox" name="" id="admin__menu-navigate">
         <label for="admin__menu-navigate">
             <i class="fa-solid fa-bars" id="admin__menu-show"></i>
@@ -172,21 +182,21 @@
                                 <tr>
                                     <th scope="col">Product Name</th>
                                     <th scope="col">Category</th>
+                                    <th scope="col">Author</th>
                                     <th scope="col">Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">More</th>
                                     <th scope="col">Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="table-success">
-                                    <th scope="row">Jujutsu Kaisen</th>
-                                    <td>manga</td>
-                                    <td>$4.2</td>
-                                    <td>30</td>
-                                    <td><a href="">more</a></td>
-                                    <td><a href="">Delete</a></td>
-                                </tr>
+                                <c:forEach var="p" items="${bookBean.selectAll()}">
+                                    <tr class="table-success">
+                                            <td>${p.name}</td>
+                                            <td>${p.getCategory().getCategoryName()}</td>
+                                            <td>${p.author}</td>
+                                            <td>${p.price} vnđ</td>                                           
+                                            <td><a href="delete-book?id=${p.id}" class="btn btn-danger btn-sm">Delete</a></td>
+                                        </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                         <button class="btn btn-success">New</button>
@@ -196,6 +206,7 @@
             </div>
         </section>
     </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>

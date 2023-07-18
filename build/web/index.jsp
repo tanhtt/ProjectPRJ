@@ -31,7 +31,7 @@
             <div>
                 <ul id="navbar">
                     <li><a class="active" href="index.jsp">Home</a></li>
-                    <li><a href="shop.jsp">Shop</a></li>
+                    <li><a href="shop">Shop</a></li>
 
 
                     <!--User menu-->
@@ -39,7 +39,7 @@
                         <li>
                             <div class="navbar__user">
                                 <img src="./img/user/userimg.png" alt="" class="navbar__user-img">
-                                <span class="navbar__user-name">Username</span>
+                                <span class="navbar__user-name">${user.username}</span>
                                 <div class="navbar__user-menu">
                                     <ul class="navbar__user-menu-list">
                                         <li class="navbar__user-menu-item">
@@ -216,17 +216,13 @@
         </section>
 
         <section id="product1" class="section-p1">
-            <h2>Featured Products</h2>
-            <p>Summer Cpllection New Morden Design</p>
+            <h2>Featured Books</h2>
+            <p>Summer Collection</p>
             <div class="pro-container">
                 <c:forEach items="${bookBean.selectAll()}" var="book" begin="0" end="7">
-                    <div class="pro" onclick="window.location.href = 'sproduct.jsp';">
+                    <div class="pro" onclick="window.location.href = 'product?id=${book.id}';">
                         <div class="pro-contain-img">
-                            <img style="width: 100%;
-                                 border-radius: 20px;
-                                 transition: transform 0.3s ease;
-                                 height: 250px;
-                                 object-fit: cover;" class="pro-img" src="${book.img}" alt="">
+                            <img  class="pro-img" src="${book.img}" alt="">
                         </div>
                         <div class="des">
                             <span>${book.getCategory().getCategoryName()}</span>
@@ -239,7 +235,7 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                             </div>
-                            <h4>{book.price} vnđ</h4>
+                            <h4>${book.price} vnđ</h4>
                         </div>
                         <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
                     </div>
@@ -249,170 +245,39 @@
 
         <section id="banner" class="section-m1">
             <h4>Repair Services</h4>
-            <h2>Up to <span>70% off</span> - All T-shirts & Accessories</h2>
+            <h2>Up to <span>70% off</span> - All Books</h2>
             <button class="normal">Explore More</button>
         </section>
 
         <section id="product1" class="section-p1">
-            <h2>New Arrivals</h2>
-            <p>Summer Cpllection New Morden Design</p>
+            <h2>New Books</h2>
+            <p>New Story Collection</p>
             <div class="pro-container">
-                <div class="pro" onclick="window.location.href = 'sproduct.jsp';">
-                    <div class="pro-contain-img">
-                        <img src="./img/products/n1.jpg" alt="">
-                    </div>
-                    <div class="des">
-                        <span>manga</span>
-                        <h5>Jujutsu Kaise</h5>
-                        <span>by <span class="product1__author">Tan</span></span>
-                        <div class="star">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
+                <c:forEach items="${bookBean.selectAll()}" var="book" varStatus="loop" begin="8" end="15">
+                    <div class="pro" onclick="window.location.href = 'product?id=${book.id}';">
+                        <div class="pro-contain-img">
+                            <img  class="pro-img" src="${book.img}" alt="">
                         </div>
-                        <h4>$78</h4>
-                    </div>
-                    <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-                </div>
-                <div class="pro" onclick="window.location.href = 'sproduct.jsp';">
-                    <div class="pro-contain-img">
-                        <img src="./img/products/n1.jpg" alt="">
-                    </div>
-                    <div class="des">
-                        <span>manga</span>
-                        <h5>Jujutsu Kaise</h5>
-                        <span>by <span class="product1__author">Tan</span></span>
-                        <div class="star">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
+                        <div class="des">
+                            <span>${book.getCategory().getCategoryName()}</span>
+                            <h5>${book.name}</h5>
+                            <span>by <span class="product1__author">${book.author}</span></span>
+                            <div class="star">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h4>${book.price} vnđ</h4>
                         </div>
-                        <h4>$78</h4>
+                        <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
                     </div>
-                    <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-                </div>
-                <div class="pro" onclick="window.location.href = 'sproduct.jsp';">
-                    <div class="pro-contain-img">
-                        <img src="./img/products/n1.jpg" alt="">
-                    </div>
-                    <div class="des">
-                        <span>manga</span>
-                        <h5>Jujutsu Kaise</h5>
-                        <span>by <span class="product1__author">Tan</span></span>
-                        <div class="star">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <h4>$78</h4>
-                    </div>
-                    <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-                </div>
-                <div class="pro" onclick="window.location.href = 'sproduct.jsp';">
-                    <div class="pro-contain-img">
-                        <img src="./img/products/n1.jpg" alt="">
-                    </div>
-                    <div class="des">
-                        <span>manga</span>
-                        <h5>Jujutsu Kaise</h5>
-                        <span>by <span class="product1__author">Tan</span></span>
-                        <div class="star">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <h4>$78</h4>
-                    </div>
-                    <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-                </div>
-                <div class="pro" onclick="window.location.href = 'sproduct.jsp';">
-                    <div class="pro-contain-img">
-                        <img src="./img/products/n1.jpg" alt="">
-                    </div>
-                    <div class="des">
-                        <span>manga</span>
-                        <h5>Jujutsu Kaise</h5>
-                        <span>by <span class="product1__author">Tan</span></span>
-                        <div class="star">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <h4>$78</h4>
-                    </div>
-                    <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-                </div>
-                <div class="pro" onclick="window.location.href = 'sproduct.jsp';">
-                    <div class="pro-contain-img">
-                        <img src="./img/products/n1.jpg" alt="">
-                    </div>
-                    <div class="des">
-                        <span>manga</span>
-                        <h5>Jujutsu Kaise</h5>
-                        <span>by <span class="product1__author">Tan</span></span>
-                        <div class="star">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <h4>$78</h4>
-                    </div>
-                    <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-                </div>
-                <div class="pro" onclick="window.location.href = 'sproduct.jsp';">
-                    <div class="pro-contain-img">
-                        <img src="./img/products/n1.jpg" alt="">
-                    </div>
-                    <div class="des">
-                        <span>manga</span>
-                        <h5>Jujutsu Kaise</h5>
-                        <span>by <span class="product1__author">Tan</span></span>
-                        <div class="star">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <h4>$78</h4>
-                    </div>
-                    <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-                </div>
-                <div class="pro" onclick="window.location.href = 'sproduct.jsp';">
-                    <div class="pro-contain-img">
-                        <img src="./img/products/n1.jpg" alt="">
-                    </div>
-                    <div class="des">
-                        <span>manga</span>
-                        <h5>Jujutsu Kaise</h5>
-                        <span>by <span class="product1__author">Tan</span></span>
-                        <div class="star">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <h4>$78</h4>
-                    </div>
-                    <a href="#"><i class="fa-solid fa-cart-shopping cart"></i></a>
-                </div>
+                </c:forEach>
             </div>
         </section>
 
-        <section id="sm-banner" class="section-p1">
+<!--        <section id="sm-banner" class="section-p1">
             <div class="banner-box">
                 <h4>crazy deals</h4>
                 <h2>buy 1 get 1 free</h2>
@@ -441,7 +306,7 @@
                 <h2>SEASONAL SALE</h2>
                 <h3>Winter Collection -50% OFF</h3>
             </div>
-        </section>
+        </section>-->
 
         <section id="newsletter" class="section-p1 section-m1">
             <div class="newstext">
@@ -508,7 +373,7 @@
             </div>
         </footer>
 
-        <!-- <div class="modal js-modal open">
+<!--         <div class="modal js-modal open">
             <div class="modal-overlay"></div>
             <div class="modal-container js-modal-container">
                 <div class="modal__best-seller">
